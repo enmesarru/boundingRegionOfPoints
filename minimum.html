@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script src="Point.js"></script>
+    <script src="Rectangle.js"></script>
+</head>
+<body>
+    <canvas id="canvas" width="600" height="400"></canvas>
+    <script>
+            var c = document.getElementById("canvas");
+            var ctx = c.getContext("2d");
+            
+            function drawPoint(array, style){
+                array.forEach(pt => {
+                    ctx.fillStyle = style;
+                    ctx.fillRect(pt.x,pt.y,2,2);
+                });
+            }
+    
+            function bounding_box(points)
+            {
+                xmin = points.sort((a,b) => a.x - b.x)[0].x;
+                xmax = points.sort((a,b) =>  b.x - a.x)[0].x;
+                ymin = points.sort((a,b) =>  a.y - b.y)[0].y;
+                ymax = points.sort((a,b) =>  b.y - a.y)[0].y;
+                let region =  [
+                   { x : xmin, y :  ymax},
+                   { x : xmax, y : ymax },
+                   { x : xmin, y: ymin },
+                   { x: xmax, y: ymin }
+                ];
+                return region
+            }
+            var points = []
+            for(var i = 0; i < 50; i++) {
+                var r = new Point(Math.random() * 200, Math.random() * 150)
+                points.push(r);
+            }
+            drawPoint(points, "#FF0000");
+            var alan = bounding_box(points)
+            console.log(alan)
+            drawPoint(alan, "#00FF00");
+        </script>
+</body>
+</html>
